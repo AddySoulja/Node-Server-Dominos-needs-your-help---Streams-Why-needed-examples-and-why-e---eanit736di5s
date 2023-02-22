@@ -1,30 +1,20 @@
-// var http = require("http");
+var http = require("http");
 
-// const httpServer = http.createServer(handleServer);
+const httpServer = http
+  .createServer(function handleServer(req, res) {
+    if (req.url === "/welcome") {
+      res.writeHead(200, { "content-type": "text/plain" });
+      res.end("Welcome to Dominos!");
+    } else if (req.url === "/contact") {
+      res.writeHead(200, { "content-type": "application/json" });
+      const jsonData = {
+        phone: "18602100000",
+        email: "guestcaredominos@jublfood.com",
+      };
+      res.end(JSON.stringify(jsonData));
+    } else res.writeHead(404);
+    res.end();
+  })
+  .listen(8081);
 
-
-// function handleServer(req, res) {
-  
-// }
-
-// module.exports = httpServer;
-const express = require("express");
-
-const app = express();
-
-app.get("/welcome", (req, res) => {
-  res.send("Welcome to Dominos!");
-  res.sendStatus(200);
-});
-
-app.get("/contact", (req, res) => {
-  res.json({
-    phone: "18602100000",
-    email: "guestcaredominos@jublfood.com",
-  });
-  res.sendStatus(200);
-});
-
-app.listen(8081, () => {
-  console.log("Listening to port 8081");
-});
+module.exports = httpServer;
